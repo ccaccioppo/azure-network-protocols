@@ -5,7 +5,7 @@
 </p>
 
 <h1>Network Security Groups (NSGs) and Inspecting Traffic Between Azure Virtual Machines</h1>
-In this tutorial, we analyze various network traffic flows to and from Azure Virtual Machines using Wireshark and explore the functionality of Network Security Groups.<br />
+In this tutorial, we’ll dive into analyzing different network traffic patterns to and from Azure Virtual Machines using Wireshark. Along the way, we’ll also take a closer look at how Network Security Groups work and how they impact network communication.<br />
 
 <h2>Environments and Technologies Used</h2>
 
@@ -27,7 +27,7 @@ In this tutorial, we analyze various network traffic flows to and from Azure Vir
 <img src="https://i.imgur.com/JGhlxJJ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Create two VMs in the Azure portal: one using a Windows 10 Pro image and the other using a Linux image, each with 2 vCPUs. Ensure both VMs are attached to the same virtual network during setup. Use RDP to access the Windows machine.
+Set up two virtual machines in the Azure portal: one with a Windows 10 Pro image and the other with a Linux image, both configured with 2 vCPUs. Make sure to connect both VMs to the same virtual network during the creation process. Once the Windows VM is up and running, use Remote Desktop Protocol (RDP) to connect to it.
 </p>
 <br />
 
@@ -35,7 +35,7 @@ Create two VMs in the Azure portal: one using a Windows 10 Pro image and the oth
 <img src="https://i.imgur.com/1BYvdJZ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Download and install Wireshark from https://www.wireshark.org. This tool will be used to observe network traffic.
+Head over to https://www.wireshark.org to download and install Wireshark. This powerful tool will help you monitor and analyze network traffic, giving you valuable insights into how data moves across your network.
 </p>
 <br />
 
@@ -43,7 +43,7 @@ Download and install Wireshark from https://www.wireshark.org. This tool will be
 <img src="https://i.imgur.com/3gTUIDW.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-After installing Wireshark, open the application and filter for ICMP traffic in the search bar. ICMP is used by network devices to send error messages and check connectivity.
+Once you've installed Wireshark, launch the application and use the search bar to filter for ICMP traffic. ICMP, or Internet Control Message Protocol, is a key tool that network devices use to communicate error messages and verify connectivity between devices.
 </p>
 <br />
 
@@ -51,7 +51,7 @@ After installing Wireshark, open the application and filter for ICMP traffic in 
 <img src="https://i.imgur.com/HgLp5AR.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Open PowerShell and use the ping command to test the connectivity to the private IP address of the Linux machine, which is on the same network. You can find the Linux machine's private IP address in the Azure portal under the VM's network settings.
+Open PowerShell and run the ping command to check if you can connect to the Linux machine's private IP address, which is part of the same network. To locate the Linux machine's private IP address, head over to the Azure portal and navigate to the VM's network settings.
 </p>
 <br />
 
@@ -59,7 +59,7 @@ Open PowerShell and use the ping command to test the connectivity to the private
 <img src="https://i.imgur.com/nurPwTN.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-You can view each packet sent while pinging the machine in Wireshark, displaying the ICMP traffic for analysis. 
+In Wireshark, you can observe every packet transmitted during the ping process, allowing you to analyze the ICMP traffic in detail. 
 </p>
 <br />
 
@@ -67,7 +67,7 @@ You can view each packet sent while pinging the machine in Wireshark, displaying
 <img src="https://i.imgur.com/X4yfgee.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Next, use the ping -t command to continuously ping the Linux machine. Then, go to the Linux VM in Azure, navigate to Network Settings, and create an inbound port rule to deny ICMP traffic, effectively blocking it on the firewall.
+Next, run the ping -t command to continuously send ping requests to the Linux machine. After that, log into the Linux virtual machine on Azure, head over to the Network Settings, and set up an inbound port rule to block ICMP traffic. This will prevent ICMP packets from passing through the firewall.
 </p>
 <br />
 
@@ -75,7 +75,7 @@ Next, use the ping -t command to continuously ping the Linux machine. Then, go t
 <img src="https://i.imgur.com/UvdXvva.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-After blocking ICMP traffic on the Linux machine’s firewall, check Wireshark to see that the pings no longer receive replies. In PowerShell, you’ll see a message saying "Request Timed Out."
+After configuring the Linux machine’s firewall to block ICMP traffic, use Wireshark to confirm that the ping requests no longer receive responses. In PowerShell, you’ll notice a "Request Timed Out" message, indicating that the ICMP packets are being successfully blocked by the firewall.
 </p>
 <br />
 
@@ -83,7 +83,7 @@ After blocking ICMP traffic on the Linux machine’s firewall, check Wireshark t
 <img src="https://i.imgur.com/QstVuqS.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Afterward, delete the inbound port rule to allow ICMP traffic again. To stop the continuous pinging, press Ctrl + C in PowerShell. 
+Next, remove the inbound port rule that was allowing ICMP traffic. To end the ongoing ping process, simply press Ctrl + C in the PowerShell window. 
 </p>
 <br />
 
@@ -91,7 +91,7 @@ Afterward, delete the inbound port rule to allow ICMP traffic again. To stop the
 <img src="https://i.imgur.com/5sVds9j.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Next, we will filter SSH traffic using Wireshark. By now, you should have a basic understanding of how to navigate Wireshark. To proceed, open the command prompt on your Windows machine and establish an SSH connection to the Linux machine using the command: ssh labuser2@10.0.0.5. Once this command is executed, Wireshark will display the SSH traffic, allowing you to observe and analyze it in real time.You can type "exit" to end the linux SSH connection when you're done.
+Next, we’ll focus on filtering SSH traffic using Wireshark. At this point, you should already be somewhat familiar with navigating Wireshark’s interface. To get started, open the Command Prompt on your Windows computer and initiate an SSH connection to the Linux machine by typing the following command: ssh labuser2@10.0.0.5. Once the connection is established, Wireshark will begin capturing and displaying the SSH traffic, giving you the opportunity to monitor and analyze it in real time. When you’re finished, simply type exit to close the SSH session with the Linux machine.
 </p>
 <br />
 
@@ -99,7 +99,7 @@ Next, we will filter SSH traffic using Wireshark. By now, you should have a basi
 <img src="https://i.imgur.com/WlKABeY.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Next, we'll filter DNS traffic in Wireshark. Start by setting Wireshark to display only DNS traffic. To generate DNS activity, use the command nslookup www.yahoo.com, which queries the DNS server for Yahoo's IP address.
+Next, we’ll focus on filtering DNS traffic in Wireshark. Begin by configuring Wireshark to show only DNS-related packets. To create some DNS activity, you can use the nslookup command, such as nslookup www.yahoo.com. This command sends a query to the DNS server to retrieve the IP address associated with Yahoo’s website. This will help you observe and analyze how DNS requests and responses are handled in the network.
 </p>
 <br />
 
@@ -107,7 +107,7 @@ Next, we'll filter DNS traffic in Wireshark. Start by setting Wireshark to displ
 <img src="https://i.imgur.com/afL911f.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Now, we'll use Wireshark to filter DHCP traffic. DHCP, or Dynamic Host Configuration Protocol, assigns IP addresses to devices. To generate DHCP traffic, enter the command ipconfig /renew in PowerShell, which requests a new IP address. Wireshark will capture this DHCP activity for analysis.
+Next, we’ll use Wireshark to filter and analyze DHCP traffic. DHCP, which stands for Dynamic Host Configuration Protocol, is responsible for automatically assigning IP addresses to devices on a network. To create some DHCP traffic, you can run the command ipconfig /renew in PowerShell. This command will prompt your device to request a new IP address from the DHCP server. As this happens, Wireshark will capture the DHCP activity, allowing us to examine the process in detail.
 </p>
 <br />
 
@@ -115,6 +115,6 @@ Now, we'll use Wireshark to filter DHCP traffic. DHCP, or Dynamic Host Configura
 <img src="https://i.imgur.com/KUhVqBe.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Lastly, we'll filter for RDP traffic in Wireshark. Since we're using Remote Desktop Protocol to connect to our virtual machine, RDP traffic will appear continuously, providing ample data for analysis.
+Finally, we’ll set up a filter in Wireshark to capture RDP traffic. Since we’re using Remote Desktop Protocol to connect to our virtual machine, we should see a steady stream of RDP-related data, giving us plenty of information to analyze.
 </p>
 <br />
